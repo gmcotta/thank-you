@@ -1,24 +1,53 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useState } from 'react';
+import ReactCanvasConfetti from 'react-canvas-confetti';
+import Lottie from 'react-lottie';
+
+import thankYouAnimation from './animations/thank-you.json';
 
 function App() {
+  const [fireConfetti, setFireConfetti] = useState(false);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <ReactCanvasConfetti 
+        style={{
+          position: 'fixed',
+          width: '100%',
+          height: '100%',
+          zIndex: 10,
+        }}
+        fire={fireConfetti}
+        particleCount={500}
+        angle={90}
+        spread={360}
+        startVelocity={150}
+        decay={0.8}
+        gravity={2.2}
+        drift={1}
+        ticks={800}
+      />
+      <div>
+        <Lottie
+          options={{
+            animationData: thankYouAnimation,
+            loop: false,
+            autoplay: true,
+            rendererSettings: {
+              preserveAspectRatio: 'xMidYMid slice',
+            },
+          }}
+          isPaused={false}
+          isStopped={false}
+          direction={1}
+          speed={2}
+          eventListeners={[
+            {
+              eventName: 'complete',
+              callback: () => setFireConfetti(true)
+            }
+          ]}
+        />
+      </div>
     </div>
   );
 }
